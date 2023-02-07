@@ -1,0 +1,9 @@
+﻿  Controller.cpp
+C:\Users\alemk\source\repos\oopLab4\oopLab4\Controller.cpp(64,49): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\alemk\source\repos\oopLab4\oopLab4\Controller.cpp(64,46): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\alemk\source\repos\oopLab4\oopLab4\Controller.cpp(117,57): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\alemk\source\repos\oopLab4\oopLab4\Controller.cpp(296,49): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+  oopLab4.cpp
+C:\Users\alemk\source\repos\oopLab4\oopLab4\oopLab4.cpp(27,15): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+  Generating Code...
+  oopLab4.vcxproj -> C:\Users\alemk\source\repos\oopLab4\x64\Debug\oopLab4.exe
