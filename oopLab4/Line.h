@@ -1,5 +1,6 @@
 #include "Figure.h"
 #include "IConvertable.h"
+#include "Extentions.h"
 #include <SFML/Graphics.hpp>
 #include <sstream>
 #pragma once

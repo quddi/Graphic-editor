@@ -12,7 +12,6 @@ private:
 	std::vector<Figure*> children;
 
 public:
-
 	Composite(Figure* fig);
 
 	~Composite();
@@ -51,4 +50,3 @@ public:
 
 	void from_string(string source) override;
 };
-

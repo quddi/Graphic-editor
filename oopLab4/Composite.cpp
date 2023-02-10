@@ -140,7 +140,7 @@ void Composite::set_collision(bool value) {
 string Composite::to_string() {
 	stringstream ss;
 
-	ss << "Composite" << " " << color.r << " " << color.g << " " << color.b << " ";
+	ss << "( Composite" << " " << color.r << " " << color.g << " " << color.b << " ";
 	ss << get_position().x << " " << get_position().y << " ";
 	ss << get_scale().x << " " << get_scale().y << " ";
 	ss << (automove ? 1 : 0) << " ( ";
@@ -149,7 +149,7 @@ string Composite::to_string() {
 		ss << ((IConvertable*)children[i])->to_string() << " ";
 	}
 
-	ss << ") ";
+	ss << ") ) ";
 
 	return ss.str();
 }

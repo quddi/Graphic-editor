@@ -7,20 +7,22 @@ C:\Users\alemk\source\repos\oopLab4\oopLab4\Controller.cpp(64,49): warning C4244
 C:\Users\alemk\source\repos\oopLab4\oopLab4\Controller.cpp(64,46): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
 C:\Users\alemk\source\repos\oopLab4\oopLab4\Controller.cpp(138,53): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
 C:\Users\alemk\source\repos\oopLab4\oopLab4\Controller.cpp(312,49): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
-  Figure.cpp
+  ControllerCaretaker.cpp
   Line.cpp
 C:\Users\alemk\source\repos\oopLab4\oopLab4\Line.cpp(21,10): warning C4305: '=': truncation from 'double' to 'float'
+  oopLab4.cpp
+C:\Users\alemk\source\repos\oopLab4\oopLab4\oopLab4.cpp(27,15): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+  SceneMemento.cpp
+  Source.cpp
   Square.cpp
-C:\Users\alemk\source\repos\oopLab4\oopLab4\Square.cpp(50,10): warning C4305: '=': truncation from 'double' to 'float'
-C:\Users\alemk\source\repos\oopLab4\oopLab4\Square.cpp(53,10): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\alemk\source\repos\oopLab4\oopLab4\Square.cpp(64,10): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\alemk\source\repos\oopLab4\oopLab4\Square.cpp(67,10): warning C4305: '=': truncation from 'double' to 'float'
   Star.cpp
 C:\Users\alemk\source\repos\oopLab4\oopLab4\Star.cpp(7,28): warning C4244: 'argument': conversion from 'float' to 'size_t', possible loss of data
 C:\Users\alemk\source\repos\oopLab4\oopLab4\Star.cpp(45,16): warning C4305: '=': truncation from 'double' to 'float'
 C:\Users\alemk\source\repos\oopLab4\oopLab4\Star.cpp(48,16): warning C4305: '=': truncation from 'double' to 'float'
   Triangle.cpp
-C:\Users\alemk\source\repos\oopLab4\oopLab4\Triangle.cpp(50,10): warning C4305: '=': truncation from 'double' to 'float'
-C:\Users\alemk\source\repos\oopLab4\oopLab4\Triangle.cpp(53,10): warning C4305: '=': truncation from 'double' to 'float'
-  oopLab4.cpp
-C:\Users\alemk\source\repos\oopLab4\oopLab4\oopLab4.cpp(27,15): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+C:\Users\alemk\source\repos\oopLab4\oopLab4\Triangle.cpp(64,10): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\alemk\source\repos\oopLab4\oopLab4\Triangle.cpp(67,10): warning C4305: '=': truncation from 'double' to 'float'
   Generating Code...
   oopLab4.vcxproj -> C:\Users\alemk\source\repos\oopLab4\x64\Debug\oopLab4.exe

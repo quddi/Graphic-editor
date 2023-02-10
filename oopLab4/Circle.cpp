@@ -85,4 +85,42 @@ string Circle::to_string() {
 }
 
 void Circle::from_string(string source) {
+	vector<string> splited = split(source);
+
+	if (splited.size() != 8 || splited[0] != "Circle") {
+		throw new exception("bad source");
+	}
+
+	Color obtained_color;
+	float obtained_x_pos, obtained_y_pos, obtained_x_scale, obtained_y_scale;
+	bool obtained_automove;
+
+	try {
+		obtained_color.r = stoi(splited[0]);
+		obtained_color.g = stoi(splited[1]);
+		obtained_color.b = stoi(splited[2]);
+
+		obtained_x_pos = stoi(splited[3]);
+		obtained_y_pos = stoi(splited[4]);
+		obtained_x_scale = stoi(splited[5]);
+		obtained_y_scale = stoi(splited[6]);
+
+		if (splited[7] == "0") {
+			obtained_automove = false;
+		}
+		else if (splited[7] == "1") {
+			obtained_automove = true;
+		}
+		else {
+			throw new exception();
+		}
+	}
+	catch (exception _) {
+		throw new exception("Failed to load a circle!");
+	}
+
+	color = obtained_color;
+	move(obtained_x_pos, obtained_y_pos);
+	set_scale(obtained_x_scale, obtained_y_scale);
+	automove = obtained_automove;
 }
