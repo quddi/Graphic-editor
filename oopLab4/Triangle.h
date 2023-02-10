@@ -1,9 +1,11 @@
-#include <SFML/Graphics.hpp>
 #include "Figure.h"
+#include "IConvertable.h"
+#include <SFML/Graphics.hpp>
+#include <sstream>
 #pragma once
 using namespace sf;
 
-class Triangle : public Figure
+class Triangle : public Figure, public IConvertable
 {
 private:
 	CircleShape* triangle;
@@ -38,5 +40,9 @@ public:
 	void set_color(Color color) override;
 
 	Figure* get_copy() override;
+
+	string to_string() override;
+
+	void from_string(string source) override;
 };
 

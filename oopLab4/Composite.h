@@ -3,9 +3,10 @@
 #include <string>
 #include <sstream>
 #include "Figure.h"
+#include "IConvertable.h"
 #pragma once
 
-class Composite : public Figure
+class Composite : public Figure, public IConvertable
 {
 private:
 	std::vector<Figure*> children;
@@ -45,5 +46,9 @@ public:
 	void add(Figure* fig_to_add) override;
 
 	void set_collision(bool value) override;
+
+	string to_string() override;
+
+	void from_string(string source) override;
 };
 

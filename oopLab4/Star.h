@@ -1,9 +1,11 @@
 #include "Figure.h"
+#include "IConvertable.h"
 #include <SFML/Graphics.hpp>
+#include <sstream>
 #pragma once
 using namespace sf;
 
-class Star : public Figure
+class Star : public Figure, public IConvertable
 {
 private:
 	ConvexShape* star;
@@ -38,5 +40,9 @@ public:
 	void set_color(Color color) override;
 
 	Figure* get_copy() override;
+
+	string to_string() override;
+
+	void from_string(string source) override;
 };
 

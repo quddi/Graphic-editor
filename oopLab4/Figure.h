@@ -2,10 +2,11 @@
 #include <iostream>
 #include <string>
 #include <SFML/Graphics.hpp>
+#include "IPrototype.h"
 #pragma once
 using namespace sf;
 
-class Figure {
+class Figure : public IPrototype {
 protected:
 	Color color;
 	bool automove;
@@ -24,7 +25,6 @@ public:
 	virtual void move(float x, float y) = 0;
 	virtual void set_outline(float thickness, Color color) = 0;
 	virtual void set_color(Color color) = 0;
-	virtual Figure* get_copy() = 0;
 	virtual void add(Figure* fig_to_add);
 	virtual void set_collision(bool value);
 	void update_window_collision(RenderWindow& window);

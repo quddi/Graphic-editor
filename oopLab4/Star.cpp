@@ -88,5 +88,23 @@ void Star::set_color(Color color) {
 Figure* Star::get_copy() {
     Star* res = new Star(size, color);
 
+    Vector2f current_pos = star->getPosition();
+    res->move(current_pos.x, current_pos.y);
+
     return res;
+}
+
+string Star::to_string() {
+    stringstream ss;
+
+    ss << "Star" << " " << color.r << " " << color.g << " " << color.b << " ";
+    ss << get_position().x << " " << get_position().y << " ";
+    ss << get_scale().x << " " << get_scale().y << " ";
+    ss << (automove ? 1 : 0);
+
+    return ss.str();
+}
+
+void Star::from_string(string source) {
+    
 }

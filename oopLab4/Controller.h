@@ -11,6 +11,7 @@
 #include "Triangle.h"
 #include "Star.h"
 #include "Line.h"
+#include "IConvertable.h"
 using namespace std;
 using namespace sf;
 
@@ -92,5 +93,9 @@ public:
     static Controller* get_instance();
 
     void start_demonstration();
+
+    IConvertable* get_memento();
+
+    void set_memento(IConvertable* memento);
 };
 

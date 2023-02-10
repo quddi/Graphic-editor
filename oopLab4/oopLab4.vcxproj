@@ -152,9 +152,12 @@
     <ClCompile Include="Circle.cpp" />
     <ClCompile Include="Composite.cpp" />
     <ClCompile Include="Controller.cpp" />
+    <ClCompile Include="ControllerCaretaker.cpp" />
     <ClCompile Include="Figure.cpp" />
     <ClCompile Include="Line.cpp" />
     <ClCompile Include="oopLab4.cpp" />
+    <ClCompile Include="SceneMemento.cpp" />
+    <ClCompile Include="Source.cpp" />
     <ClCompile Include="Square.cpp" />
     <ClCompile Include="Star.cpp" />
     <ClCompile Include="Triangle.cpp" />
@@ -166,16 +169,16 @@
     <ClInclude Include="Circle.h" />
     <ClInclude Include="Composite.h" />
     <ClInclude Include="Controller.h" />
+    <ClInclude Include="ControllerCaretaker.h" />
+    <ClInclude Include="Extentions.h" />
     <ClInclude Include="Figure.h" />
+    <ClInclude Include="IConvertable.h" />
     <ClInclude Include="Line.h" />
+    <ClInclude Include="IPrototype.h" />
+    <ClInclude Include="SceneMemento.h" />
     <ClInclude Include="Square.h" />
     <ClInclude Include="Star.h" />
     <ClInclude Include="Triangle.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="ClassDiagram.cd" />
-    <None Include="ClassDiagram1.cd" />
-    <None Include="ClassDiagram2.cd" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

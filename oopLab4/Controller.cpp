@@ -105,21 +105,37 @@ void Controller::add_figure() {
     cout << "3. Square" << endl;
     cout << "4. Star" << endl;
     cout << "5. Triangle" << endl;
+    cout << "6. Copy of the selected figure" << endl;
+
+    if (scene_figures.size() == 10) {
+        cout << "The scene can not contain more than 10 figures." << endl;
+        cout << "Delete one figure and try again" << endl;
+        return;
+    }
 
     try {
         int input;
         cin >> input;
 
-        if (0 < input && input < 6)
-        {
-            scene_figures.push_back((Composite*)figure_prefabs[input - 1]->get_copy());
-            scene_figures[scene_figures.size() - 1]->set_color(*(get_random_color()));
-            activate_new_figure(scene_figures.size() - 1);
-        }
-        else
-        {
+        if (0 >= input || input >= 7) {
             cout << "Bad input! Try again." << endl;
+            return;
         }
+
+        if (input == 6) {
+            if (scene_figures.size() == 0) {
+                cout << "The scene does not contain any figures" << endl;
+                return;
+            }
+
+            scene_figures.push_back((Figure*)scene_figures[active_figure_index]->get_copy());
+        }
+        else {
+            scene_figures.push_back((Figure*)figure_prefabs[input - 1]->get_copy());
+            scene_figures[scene_figures.size() - 1]->set_color(*(get_random_color()));
+        }
+
+        activate_new_figure(scene_figures.size() - 1);
     }
     catch (exception ex) {
         cout << "Bad input! Try again." << endl;

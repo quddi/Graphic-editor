@@ -61,7 +61,24 @@ Figure* Line::get_copy()
 {
 	Line* res = new Line(length, color);
 
+	Vector2f current_pos = line->getPosition();
+	res->move(current_pos.x, current_pos.y);
+
 	return res;
+}
+
+string Line::to_string() {
+	stringstream ss;
+
+	ss << "Line" << " " << color.r << " " << color.g << " " << color.b << " ";
+	ss << get_position().x << " " << get_position().y << " ";
+	ss << get_scale().x << " " << get_scale().y << " ";
+	ss << (automove ? 1 : 0);
+
+	return ss.str();
+}
+
+void Line::from_string(string source) {
 }
 
 void Line::draw(RenderWindow& window) {

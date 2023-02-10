@@ -12,10 +12,10 @@ Composite::~Composite() {
 }
 
 Composite* Composite::clone() {
-	Composite* copy = new Composite(children[0]->get_copy());
+	Composite* copy = new Composite((Figure*)children[0]->get_copy());
 
 	for (int i = 1; i < children.size(); i++)
-		copy->add(children[i]->get_copy());
+		copy->add((Figure*)children[i]->get_copy());
 
 	return copy;
 }
@@ -114,10 +114,10 @@ Figure* Composite::get_copy() {
 	if (children.size() == 0)
 		throw new std::exception("no children!");
 
-	Composite* res = new Composite(children[0]->get_copy());
+	Composite* res = new Composite((Figure*)children[0]->get_copy());
 
 	for (int i = 1; i < children.size(); i++)
-		res->add(children[i]->get_copy());
+		res->add((Figure*)children[i]->get_copy());
 
 	res->color = color;
 
@@ -135,4 +135,24 @@ void Composite::set_collision(bool value) {
 	for (int i = 0; i < children.size(); i++) {
 		children[i]->set_collision(value);
 	}
+}
+
+string Composite::to_string() {
+	stringstream ss;
+
+	ss << "Composite" << " " << color.r << " " << color.g << " " << color.b << " ";
+	ss << get_position().x << " " << get_position().y << " ";
+	ss << get_scale().x << " " << get_scale().y << " ";
+	ss << (automove ? 1 : 0) << " ( ";
+
+	for (int i = 0; i < children.size(); i++) {
+		ss << ((IConvertable*)children[i])->to_string() << " ";
+	}
+
+	ss << ") ";
+
+	return ss.str();
+}
+
+void Composite::from_string(string source) {
 }

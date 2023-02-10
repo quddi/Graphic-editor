@@ -30,7 +30,24 @@ Figure* Square::get_copy()
 {
 	Square* res = new Square(side, color);
 
+	Vector2f current_pos = square->getPosition();
+	res->move(current_pos.x, current_pos.y);
+
 	return res;
+}
+
+string Square::to_string() {
+	stringstream ss;
+
+	ss << "Square" << " " << color.r << " " << color.g << " " << color.b << " ";
+	ss << get_position().x << " " << get_position().y << " ";
+	ss << get_scale().x << " " << get_scale().y << " ";
+	ss << (automove ? 1 : 0);
+
+	return ss.str();
+}
+
+void Square::from_string(string source) {
 }
 
 void Square::draw(RenderWindow& window) {

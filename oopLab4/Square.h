@@ -1,9 +1,11 @@
-#pragma once
 #include "Figure.h"
+#include "IConvertable.h"
 #include <SFML/Graphics.hpp>
+#include <sstream>
+#pragma once
 using namespace sf;
 
-class Square : public Figure
+class Square : public Figure, public IConvertable
 {
 private:
 	RectangleShape* square;
@@ -38,4 +40,8 @@ public:
 	void set_color(Color color) override;
 
 	Figure* get_copy() override;
+
+	string to_string() override;
+
+	void from_string(string source) override;
 };
