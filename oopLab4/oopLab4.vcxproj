@@ -157,7 +157,7 @@
     <ClCompile Include="Line.cpp" />
     <ClCompile Include="oopLab4.cpp" />
     <ClCompile Include="SceneMemento.cpp" />
-    <ClCompile Include="Source.cpp" />
+    <ClCompile Include="Extentions.cpp" />
     <ClCompile Include="Square.cpp" />
     <ClCompile Include="Star.cpp" />
     <ClCompile Include="Triangle.cpp" />

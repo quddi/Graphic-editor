@@ -1,8 +1,8 @@
 #include "Figure.h"
 
 void Figure::update_window_collision(RenderWindow& window) {
-	Vector2u left_down_edge = window.getSize();
-	Vector2f current_pos = get_position();
+	const Vector2u left_down_edge = window.getSize();
+	const Vector2f current_pos = get_position();
 
 	if (current_pos.x < 0)
 		move(left_down_edge.x - current_pos.x, 0);
@@ -33,10 +33,9 @@ void Figure::update(RenderWindow& window) {
 	auto_move();
 
 	if (is_collided == true) {
-		float x_scale, y_scale;
-		x_scale = get_scale().x;
-		y_scale = get_scale().y;
-		set_scale(DEFORMATED_COEFICIENT, DEFORMATED_COEFICIENT);
+		const float x_scale = get_scale().x;
+		const float y_scale = get_scale().y;
+		set_scale(x_scale, y_scale);
 	}
 
 	draw(window);

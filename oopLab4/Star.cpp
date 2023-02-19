@@ -1,11 +1,14 @@
 #include "Star.h"
 
-Star::Star(float size, Color color) {
-    this->size = size;
-    this->color = color;
+Star::Star(float _size, Color _color) {
+    const int size_modifier = 8;
+    _size /= size_modifier;
+
+    this->size = _size;
+    this->color = _color;
     is_collided = false;
-    star = new ConvexShape(size);
-    star->setFillColor(color);
+    star = new ConvexShape(_size);
+    star->setFillColor(_color);
     star->setPointCount(10);
     star->setPoint(0, sf::Vector2f(60, 0));
     star->setPoint(1, sf::Vector2f(72, 40));
@@ -17,7 +20,7 @@ Star::Star(float size, Color color) {
     star->setPoint(7, sf::Vector2f(40, 60));
     star->setPoint(8, sf::Vector2f(10, 40));
     star->setPoint(9, sf::Vector2f(48, 40));
-    set_scale(size / 100, size / 100);
+    set_scale(_size, _size);
 }
 
 Star::~Star() {
@@ -41,17 +44,18 @@ FloatRect Star::get_global_bounds()
 
 void Star::set_scale(float x, float y)
 {
-    if (x < 0.2)
-        x = 0.2;
+    if (x < MIN_SCALE)
+        x = MIN_SCALE;
 
-    if (y < 0.2)
-        y = 0.2;
+    if (y < MIN_SCALE)
+        y = MIN_SCALE;
 
+    scale = Vector2f(x, y);
     star->setScale(x, y);
 }
 
 Vector2f Star::get_scale() {
-    return star->getScale();
+    return scale;
 }
 
 Vector2f Star::get_position()
@@ -74,22 +78,24 @@ void Star::show()
     star->setFillColor(Color(color.r, color.g, color.b, MAX_COLOR_VALUE));
 }
 
-void Star::set_outline(float thickness, Color color)
+void Star::set_outline(float thickness, Color _color)
 {
-    star->setOutlineColor(color);
+    star->setOutlineColor(_color);
     star->setOutlineThickness(thickness);
 }
 
-void Star::set_color(Color color) {
-    this->color = color;
-    star->setFillColor(color);
+void Star::set_color(Color _color) {
+    this->color = _color;
+    star->setFillColor(_color);
 }
 
 Figure* Star::get_copy() {
     Star* res = new Star(size, color);
 
-    Vector2f current_pos = star->getPosition();
+    const Vector2f current_pos = star->getPosition();
     res->move(current_pos.x, current_pos.y);
+    res->scale = Vector2f(scale.x, scale.y);
+    res->automove = automove;
 
     return res;
 }
@@ -97,18 +103,16 @@ Figure* Star::get_copy() {
 string Star::to_string() {
     stringstream ss;
 
-    ss << "Star" << " " << color.r << " " << color.g << " " << color.b << " ";
+    ss << "Star" << " " << (int)color.r << " " << (int)color.g << " " << (int)color.b << " ";
     ss << get_position().x << " " << get_position().y << " ";
-    ss << get_scale().x << " " << get_scale().y << " ";
+    ss << scale.x << " " << scale.y << " ";
     ss << (automove ? 1 : 0);
 
     return ss.str();
 }
 
-void Star::from_string(string source) {
-    vector<string> splited = split(source);
-
-    if (splited.size() != 8 || splited[0] != "Star") {
+void Star::from_string(vector<string>* splited) {
+    if (splited->size() != 9 || (*splited)[0] != "Star") {
         throw new exception("bad source");
     }
 
@@ -117,19 +121,19 @@ void Star::from_string(string source) {
     bool obtained_automove;
 
     try {
-        obtained_color.r = stoi(splited[0]);
-        obtained_color.g = stoi(splited[1]);
-        obtained_color.b = stoi(splited[2]);
+        obtained_color.r = stoi((*splited)[1]);
+        obtained_color.g = stoi((*splited)[2]);
+        obtained_color.b = stoi((*splited)[3]);
 
-        obtained_x_pos = stoi(splited[3]);
-        obtained_y_pos = stoi(splited[4]);
-        obtained_x_scale = stoi(splited[5]);
-        obtained_y_scale = stoi(splited[6]);
+        obtained_x_pos = stoi((*splited)[4]);
+        obtained_y_pos = stoi((*splited)[5]);
+        obtained_x_scale = stoi((*splited)[6]);
+        obtained_y_scale = stoi((*splited)[7]);
 
-        if (splited[7] == "0") {
+        if ((*splited)[8] == "0") {
             obtained_automove = false;
         }
-        else if (splited[7] == "1") {
+        else if ((*splited)[8] == "1") {
             obtained_automove = true;
         }
         else {
@@ -144,4 +148,7 @@ void Star::from_string(string source) {
     move(obtained_x_pos, obtained_y_pos);
     set_scale(obtained_x_scale, obtained_y_scale);
     automove = obtained_automove;
+
+    splited->clear();
+    delete(splited);
 }

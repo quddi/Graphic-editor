@@ -12,17 +12,26 @@
 #include "Star.h"
 #include "Line.h"
 #include "IConvertable.h"
+#include "ControllerCaretaker.h"
+#include "SceneMemento.h"
 using namespace std;
 using namespace sf;
 
-const string background_image_path = "Background.png";
+const string BACKGROUND_IMAGE_PATH = "Background.png";
+const string SAVE_FILE_PATH = "Save.txt";
 
 const int MIN_RANDOM_COLOR_VALUE = 50;
+const int ANTIALIASING_LEVEL = 8;
+
+const int SCREEN_WIDTH = 1920;
+const int SCREEN_HEIGHT = 960;
 
 class Controller
 {
 private:
     static Controller* instance;
+
+    ControllerCaretaker* caretaker;
 
     vector<Figure*> scene_figures;
     vector<Figure*> figure_prefabs;
@@ -32,9 +41,6 @@ private:
 
     Texture* background_texture;
     Sprite* background;
-
-    const Color default_color = Color::Yellow;
-    const float default_size = 100;
 
     int active_figure_index;
 
@@ -53,7 +59,7 @@ private:
 
     void add_figure();
 
-    Color* get_random_color();
+    static Color* get_random_color();
 
     void check_pressed_key(Keyboard& keyboard);
 
@@ -63,7 +69,7 @@ private:
 
     void set_active_figure_scale();
 
-    void active_figure_to_fronter_layer();
+    void active_figure_to_frontier_layer();
 
     void hide_active();
 
@@ -83,6 +89,10 @@ private:
 
     void set_collision_deformation(bool value);
 
+    void save_scene() const;
+
+    void load_scene();
+
     Controller();
 public:
     Controller(const Controller&) = delete;
@@ -93,9 +103,5 @@ public:
     static Controller* get_instance();
 
     void start_demonstration();
-
-    IConvertable* get_memento();
-
-    void set_memento(IConvertable* memento);
 };
 

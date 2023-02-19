@@ -1,11 +1,12 @@
 #include "Circle.h"
 
-Circle::Circle(float radius, Color color) {
+Circle::Circle(float radius, Color _color) {
 	circle = new CircleShape(radius);
+	scale = Vector2f(1, 1);
 	this->radius = radius;
-	this->color = color;
+	this->color = _color;
 	is_collided = false;
-	circle->setFillColor(color);
+	circle->setFillColor(_color);
 }
 
 Circle::~Circle() {
@@ -27,17 +28,18 @@ FloatRect Circle::get_global_bounds() {
 }
 
 void Circle::set_scale(float x, float y) {
-	if (x < 0.2)
-		x = 0.2;
+	if (x < MIN_SCALE)
+		x = MIN_SCALE;
 
-	if (y < 0.2)
-		y = 0.2;
+	if (y < MIN_SCALE)
+		y = MIN_SCALE;
 
+	scale = Vector2f(x, y);
 	circle->setScale(x, y);
 }
 
 Vector2f Circle::get_scale() {
-	return circle->getScale();
+	return scale;
 }
 
 Vector2f Circle::get_position() {
@@ -56,38 +58,40 @@ void Circle::show() {
 	circle->setFillColor(Color(color.r, color.g, color.b, MAX_COLOR_VALUE));
 }
 
-void Circle::set_outline(float thickness, Color color) {
-	circle->setOutlineColor(color);
+void Circle::set_outline(float thickness, Color _color) {
+	circle->setOutlineColor(_color);
 	circle->setOutlineThickness(thickness);
 }
 
 Figure* Circle::get_copy() {
 	Circle* res = new Circle(circle->getRadius(), circle->getFillColor());
-	Vector2f current_pos = circle->getPosition();
+
+	const Vector2f current_pos = circle->getPosition();
 	res->move(current_pos.x, current_pos.y);
+	res->scale = Vector2f(scale.x, scale.y);
+	res->automove = automove;
+
 	return res;
 }
 
-void Circle::set_color(Color color) {
-	this->color = color;
-	circle->setFillColor(color);
+void Circle::set_color(Color _color) {
+	this->color = _color;
+	circle->setFillColor(_color);
 }
 
 string Circle::to_string() {
 	stringstream ss;
 
-	ss << "Circle" << " " << color.r << " " << color.g << " " << color.b << " ";
+	ss << "Circle" << " " << (int)color.r << " " << (int)color.g << " " << (int)color.b << " ";
 	ss << get_position().x << " " << get_position().y << " ";
-	ss << get_scale().x << " " << get_scale().y << " ";
+	ss << scale.x << " " << scale.y << " ";
 	ss << (automove ? 1 : 0);
 
 	return ss.str();
 }
 
-void Circle::from_string(string source) {
-	vector<string> splited = split(source);
-
-	if (splited.size() != 8 || splited[0] != "Circle") {
+void Circle::from_string(vector<string>* splited) {
+	if (splited->size() != 9 || (*splited)[0] != "Circle") {
 		throw new exception("bad source");
 	}
 
@@ -96,19 +100,19 @@ void Circle::from_string(string source) {
 	bool obtained_automove;
 
 	try {
-		obtained_color.r = stoi(splited[0]);
-		obtained_color.g = stoi(splited[1]);
-		obtained_color.b = stoi(splited[2]);
+		obtained_color.r = stoi((*splited)[1]);
+		obtained_color.g = stoi((*splited)[2]);
+		obtained_color.b = stoi((*splited)[3]);
 
-		obtained_x_pos = stoi(splited[3]);
-		obtained_y_pos = stoi(splited[4]);
-		obtained_x_scale = stoi(splited[5]);
-		obtained_y_scale = stoi(splited[6]);
+		obtained_x_pos = stoi((*splited)[4]);
+		obtained_y_pos = stoi((*splited)[5]);
+		obtained_x_scale = stoi((*splited)[6]);
+		obtained_y_scale = stoi((*splited)[7]);
 
-		if (splited[7] == "0") {
+		if ((*splited)[8] == "0") {
 			obtained_automove = false;
 		}
-		else if (splited[7] == "1") {
+		else if ((*splited)[8] == "1") {
 			obtained_automove = true;
 		}
 		else {
@@ -123,4 +127,7 @@ void Circle::from_string(string source) {
 	move(obtained_x_pos, obtained_y_pos);
 	set_scale(obtained_x_scale, obtained_y_scale);
 	automove = obtained_automove;
+
+	splited->clear();
+	delete(splited);
 }

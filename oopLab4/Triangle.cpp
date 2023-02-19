@@ -1,12 +1,13 @@
 #include "Triangle.h"
 
-Triangle::Triangle(float height, Color color) {
+Triangle::Triangle(float height, Color _color) {
 	const int triangle_sides_count = 3;
 	triangle = new CircleShape(height, triangle_sides_count);
+	scale = Vector2f(1, 1);
 	this->height = height;
-	this->color = color;
+	this->color = _color;
 	is_collided = false;
-	triangle->setFillColor(color);
+	triangle->setFillColor(_color);
 }
 
 Triangle::~Triangle() {
@@ -17,21 +18,23 @@ void Triangle::move(float x, float y) {
 	triangle->move(x, y);
 }
 
-void Triangle::set_outline(float thickness, Color color) {
-	triangle->setOutlineColor(color);
+void Triangle::set_outline(float thickness, Color _color) {
+	triangle->setOutlineColor(_color);
 	triangle->setOutlineThickness(thickness);
 }
 
-void Triangle::set_color(Color color) {
-	this->color = color;
-	triangle->setFillColor(color);
+void Triangle::set_color(Color _color) {
+	this->color = _color;
+	triangle->setFillColor(_color);
 }
 
 Figure* Triangle::get_copy() {
-	Triangle* res = new Triangle(height, color);
+	auto* res = new Triangle(height, color);
 
-	Vector2f current_pos = triangle->getPosition();
+	const Vector2f current_pos = triangle->getPosition();
 	res->move(current_pos.x, current_pos.y);
+	res->scale = Vector2f(scale.x, scale.y);
+	res->automove = automove;
 
 	return res;
 }
@@ -39,18 +42,16 @@ Figure* Triangle::get_copy() {
 string Triangle::to_string() {
 	stringstream ss;
 
-	ss << "Triangle" << " " << color.r << " " << color.g << " " << color.b << " ";
+	ss << "Triangle" << " " << (int)color.r << " " << (int)color.g << " " << (int)color.b << " ";
 	ss << get_position().x << " " << get_position().y << " ";
-	ss << get_scale().x << " " << get_scale().y << " ";
+	ss << scale.x << " " << scale.y << " ";
 	ss << (automove ? 1 : 0);
 
 	return ss.str();
 }
 
-void Triangle::from_string(string source) {
-	vector<string> splited = split(source);
-
-	if (splited.size() != 8 || splited[0] != "Triangle") {
+void Triangle::from_string(vector<string>* splited) {
+	if (splited->size() != 9 || (*splited)[0] != "Triangle") {
 		throw new exception("bad source");
 	}
 
@@ -59,19 +60,19 @@ void Triangle::from_string(string source) {
 	bool obtained_automove;
 
 	try {
-		obtained_color.r = stoi(splited[0]);
-		obtained_color.g = stoi(splited[1]);
-		obtained_color.b = stoi(splited[2]);
+		obtained_color.r = stoi((*splited)[1]);
+		obtained_color.g = stoi((*splited)[2]);
+		obtained_color.b = stoi((*splited)[3]);
 
-		obtained_x_pos = stoi(splited[3]);
-		obtained_y_pos = stoi(splited[4]);
-		obtained_x_scale = stoi(splited[5]);
-		obtained_y_scale = stoi(splited[6]);
+		obtained_x_pos = stoi((*splited)[4]);
+		obtained_y_pos = stoi((*splited)[5]);
+		obtained_x_scale = stoi((*splited)[6]);
+		obtained_y_scale = stoi((*splited)[7]);
 
-		if (splited[7] == "0") {
+		if ((*splited)[8] == "0") {
 			obtained_automove = false;
 		}
-		else if (splited[7] == "1") {
+		else if ((*splited)[8] == "1") {
 			obtained_automove = true;
 		}
 		else {
@@ -86,6 +87,9 @@ void Triangle::from_string(string source) {
 	move(obtained_x_pos, obtained_y_pos);
 	set_scale(obtained_x_scale, obtained_y_scale);
 	automove = obtained_automove;
+
+	splited->clear();
+	delete(splited);
 }
 
 void Triangle::draw(RenderWindow& window) {
@@ -98,17 +102,18 @@ FloatRect Triangle::get_global_bounds() {
 }
 
 void Triangle::set_scale(float x, float y) {
-	if (x < 0.2)
-		x = 0.2;
+	if (x < MIN_SCALE)
+		x = MIN_SCALE;
 
-	if (y < 0.2)
-		y = 0.2;
+	if (y < MIN_SCALE)
+		y = MIN_SCALE;
 
+	scale = Vector2f(x, y);
 	triangle->setScale(x, y);
 }
 
 Vector2f Triangle::get_scale() {
-	return triangle->getScale();
+	return scale;
 }
 
 Vector2f Triangle::get_position() {

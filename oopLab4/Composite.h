@@ -3,20 +3,30 @@
 #include <string>
 #include <sstream>
 #include "Figure.h"
+#include "Circle.h"
+#include "Line.h"
+#include "Square.h"
+#include "Star.h"
+#include "Triangle.h"
 #include "IConvertable.h"
+#include "Extentions.h"
 #pragma once
 
-class Composite : public Figure, public IConvertable
+class Composite : public Figure
 {
 private:
 	std::vector<Figure*> children;
 
+	Composite();
+
 public:
+	static vector<Figure*>* childen_from_string(vector<string>* source);
+
 	Composite(Figure* fig);
 
 	~Composite();
 
-	Composite* clone();
+	Composite* clone() const;
 
 	void draw(RenderWindow& window) override;
 
@@ -48,5 +58,5 @@ public:
 
 	string to_string() override;
 
-	void from_string(string source) override;
+	void from_string(vector<string>* splited) override;
 };

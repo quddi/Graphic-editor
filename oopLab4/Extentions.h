@@ -1,7 +1,8 @@
 #include <sstream>
+#include <iostream>
 #include <vector>
 #include <string>
 #pragma once
 using namespace std;
 
-vector<string> split(string to_split);
+vector<string>* split(string to_split);

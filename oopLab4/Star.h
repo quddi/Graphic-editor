@@ -6,7 +6,7 @@
 #pragma once
 using namespace sf;
 
-class Star : public Figure, public IConvertable
+class Star : public Figure
 {
 private:
 	ConvexShape* star;
@@ -44,6 +44,6 @@ public:
 
 	string to_string() override;
 
-	void from_string(string source) override;
+	void from_string(vector<string>* splited) override;
 };
 

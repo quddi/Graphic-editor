@@ -1,15 +1,11 @@
 #include "ControllerCaretaker.h"
 
-ControllerCaretaker::ControllerCaretaker(string _file_path, IConvertable* _memento) {
+ControllerCaretaker::ControllerCaretaker(string _file_path) {
 	file_path = _file_path;
-    memento = _memento;
 }
 
-ControllerCaretaker::~ControllerCaretaker() {
-    delete(memento);
-}
-
-void ControllerCaretaker::save() {
+void ControllerCaretaker::save(IConvertable* memento) const
+{
     ofstream file(file_path);
 
     if (file.is_open()) {
@@ -22,18 +18,20 @@ void ControllerCaretaker::save() {
     file.close();
 }
 
-void ControllerCaretaker::load() {
+bool ControllerCaretaker::load(IConvertable* memento) const
+{
     ifstream file(file_path);
 
-    string line;
-
     if (file.is_open()) {
-        getline(file, line);
-        memento->from_string(line);
+	    string line;
+	    getline(file, line);
+        memento->from_string(split(line));
     }
     else {
-        throw new exception("failed to open the file");
+        return false;
     }
 
     file.close();
+
+    return true;
 }

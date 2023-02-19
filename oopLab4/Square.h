@@ -6,7 +6,7 @@
 #pragma once
 using namespace sf;
 
-class Square : public Figure, public IConvertable
+class Square : public Figure
 {
 private:
 	RectangleShape* square;
@@ -44,5 +44,5 @@ public:
 
 	string to_string() override;
 
-	void from_string(string source) override;
+	void from_string(vector<string>* splited) override;
 };

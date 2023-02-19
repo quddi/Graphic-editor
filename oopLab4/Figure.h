@@ -2,15 +2,23 @@
 #include <iostream>
 #include <string>
 #include <SFML/Graphics.hpp>
+#include "IConvertable.h"
 #include "IPrototype.h"
 #pragma once
 using namespace sf;
 
-class Figure : public IPrototype {
+const Color DEFAULT_COLOR = Color::Yellow;
+const float DEFAULT_SIZE = 100;
+const float MIN_SCALE = 0.2;
+
+
+class Figure : public IPrototype, public IConvertable {
 protected:
 	Color color;
 	bool automove;
 	bool is_collided;
+	Vector2f scale;
+
 	void auto_move();
 	virtual void draw(RenderWindow& window) = 0;
 

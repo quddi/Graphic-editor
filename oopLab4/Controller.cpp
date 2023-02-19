@@ -2,9 +2,9 @@
 
 Controller::Controller() {
     context_settings = new ContextSettings();
-    context_settings->antialiasingLevel = 8;
-    render_window = new RenderWindow(VideoMode(1920, 960), "SFMLworks", 
-        Style::Default, *context_settings);
+    context_settings->antialiasingLevel = ANTIALIASING_LEVEL;
+    render_window = new RenderWindow(VideoMode(SCREEN_WIDTH, SCREEN_HEIGHT), 
+"Graphic editor", Style::Default, *context_settings);
 
     this->trail = false;
     this->collision_deformation = false;
@@ -12,9 +12,19 @@ Controller::Controller() {
     load_background();
 
     fill_prefabs();
+
+    caretaker = new ControllerCaretaker(SAVE_FILE_PATH);
 }
 
 Controller::~Controller() {
+    for (int i = 0; i < scene_figures.size(); i++) {
+        delete(scene_figures[i]);
+    }
+
+    for (int i = 0; i < figure_prefabs.size(); i++) {
+        delete(figure_prefabs[i]);
+    }
+
     scene_figures.clear();
     figure_prefabs.clear();
     delete(render_window);
@@ -50,15 +60,15 @@ void Controller::start_demonstration() {
 }
 
 void Controller::fill_prefabs() {
-    figure_prefabs.push_back(new Composite(new Circle(default_size, default_color)));
-    figure_prefabs.push_back(new Composite(new Line(default_size, default_color)));
-    figure_prefabs.push_back(new Composite(new Square(default_size, default_color)));
-    figure_prefabs.push_back(new Composite(new Star(default_size, default_color)));
-    figure_prefabs.push_back(new Composite(new Triangle(default_size, default_color)));
+    figure_prefabs.push_back(new Composite(new Circle(DEFAULT_SIZE, DEFAULT_COLOR)));
+    figure_prefabs.push_back(new Composite(new Line(DEFAULT_SIZE, DEFAULT_COLOR)));
+    figure_prefabs.push_back(new Composite(new Square(DEFAULT_SIZE, DEFAULT_COLOR)));
+    figure_prefabs.push_back(new Composite(new Star(DEFAULT_SIZE, DEFAULT_COLOR)));
+    figure_prefabs.push_back(new Composite(new Triangle(DEFAULT_SIZE, DEFAULT_COLOR)));
 }
 
 void Controller::move(int x, int y) {
-    if (scene_figures.size() == 0)
+    if (scene_figures.empty())
         return;
 
     scene_figures[active_figure_index]->move(x, y);
@@ -82,7 +92,7 @@ void Controller::update(RenderWindow& window) {
 
 void Controller::load_background() {
     background_texture = new Texture();
-    background_texture->loadFromFile(background_image_path);
+    background_texture->loadFromFile(BACKGROUND_IMAGE_PATH);
 
     background = new Sprite(*background_texture);
 }
@@ -123,12 +133,13 @@ void Controller::add_figure() {
         }
 
         if (input == 6) {
-            if (scene_figures.size() == 0) {
+            if (scene_figures.empty()) {
                 cout << "The scene does not contain any figures" << endl;
                 return;
             }
 
-            scene_figures.push_back((Figure*)scene_figures[active_figure_index]->get_copy());
+            scene_figures.push_back(
+                (Figure*)scene_figures[active_figure_index]->get_copy());
         }
         else {
             scene_figures.push_back((Figure*)figure_prefabs[input - 1]->get_copy());
@@ -139,6 +150,7 @@ void Controller::add_figure() {
     }
     catch (exception ex) {
         cout << "Bad input! Try again." << endl;
+        return;
     }
 }
 
@@ -151,95 +163,101 @@ Color* Controller::get_random_color() {
 }
 
 void Controller::check_pressed_key(Keyboard& keyboard) {
-    if (keyboard.isKeyPressed(keyboard.A))
+    if (Keyboard::isKeyPressed(keyboard.A))
         move(-1, 0);
 
-    if (keyboard.isKeyPressed(keyboard.W))
+    if (Keyboard::isKeyPressed(keyboard.W))
         move(0, -1);
 
-    if (keyboard.isKeyPressed(keyboard.D))
+    if (Keyboard::isKeyPressed(keyboard.D))
         move(1, 0);
 
-    if (keyboard.isKeyPressed(keyboard.S))
+    if (Keyboard::isKeyPressed(keyboard.S))
         move(0, 1);
 
-    if (keyboard.isKeyPressed(keyboard.I))
+    if (Keyboard::isKeyPressed(keyboard.Q))
         add_figure();
 
-    if (keyboard.isKeyPressed(keyboard.C))
+    if (Keyboard::isKeyPressed(keyboard.C))
         add_selected_to_composite();
 
-    if (keyboard.isKeyPressed(keyboard.V))
+    if (Keyboard::isKeyPressed(keyboard.V))
         select_color();
 
-    if (keyboard.isKeyPressed(keyboard.RBracket))
-        active_figure_to_fronter_layer();
+    if (Keyboard::isKeyPressed(keyboard.RBracket))
+        active_figure_to_frontier_layer();
 
-    if (keyboard.isKeyPressed(keyboard.E))
+    if (Keyboard::isKeyPressed(keyboard.E))
         cout << "Debug" << endl;
 
-    if (keyboard.isKeyPressed(keyboard.H))
+    if (Keyboard::isKeyPressed(keyboard.H))
         set_active_figure_scale();
 
-    if (keyboard.isKeyPressed(keyboard.O))
+    if (Keyboard::isKeyPressed(keyboard.O))
         hide_active();
 
-    if (keyboard.isKeyPressed(keyboard.P))
+    if (Keyboard::isKeyPressed(keyboard.P))
         show_active();
 
-    if (keyboard.isKeyPressed(keyboard.T))
+    if (Keyboard::isKeyPressed(keyboard.T))
         set_active_figure_automove_mode(true);
 
-    if (keyboard.isKeyPressed(keyboard.Y))
+    if (Keyboard::isKeyPressed(keyboard.Y))
         set_active_figure_automove_mode(false);
 
-    if (keyboard.isKeyPressed(keyboard.R))
+    if (Keyboard::isKeyPressed(keyboard.R))
         delete_active_figure();
 
-    if (keyboard.isKeyPressed(keyboard.M))
+    if (Keyboard::isKeyPressed(keyboard.M))
         show_all();
 
-    if (keyboard.isKeyPressed(keyboard.B))
+    if (Keyboard::isKeyPressed(keyboard.B))
         set_trail(true);
 
-    if (keyboard.isKeyPressed(keyboard.N))
+    if (Keyboard::isKeyPressed(keyboard.N))
         set_trail(false);
 
-    if (keyboard.isKeyPressed(keyboard.F))
+    if (Keyboard::isKeyPressed(keyboard.F))
         set_collision_deformation(true);
 
-    if (keyboard.isKeyPressed(keyboard.G))
+    if (Keyboard::isKeyPressed(keyboard.G))
         set_collision_deformation(false);
 
+    if (Keyboard::isKeyPressed(keyboard.U))
+        save_scene();
+
+    if (Keyboard::isKeyPressed(keyboard.I))
+        load_scene();
+
 #pragma region NumKeys
-    if (keyboard.isKeyPressed(keyboard.Num0))
+    if (Keyboard::isKeyPressed(keyboard.Num0))
         activate_new_figure(0);
 
-    if (keyboard.isKeyPressed(keyboard.Num1))
+    if (Keyboard::isKeyPressed(keyboard.Num1))
         activate_new_figure(1);
 
-    if (keyboard.isKeyPressed(keyboard.Num2))
+    if (Keyboard::isKeyPressed(keyboard.Num2))
         activate_new_figure(2);
 
-    if (keyboard.isKeyPressed(keyboard.Num3))
+    if (Keyboard::isKeyPressed(keyboard.Num3))
         activate_new_figure(3);
 
-    if (keyboard.isKeyPressed(keyboard.Num4))
+    if (Keyboard::isKeyPressed(keyboard.Num4))
         activate_new_figure(4);
 
-    if (keyboard.isKeyPressed(keyboard.Num5))
+    if (Keyboard::isKeyPressed(keyboard.Num5))
         activate_new_figure(5);
 
-    if (keyboard.isKeyPressed(keyboard.Num6))
+    if (Keyboard::isKeyPressed(keyboard.Num6))
         activate_new_figure(6);
 
-    if (keyboard.isKeyPressed(keyboard.Num7))
+    if (Keyboard::isKeyPressed(keyboard.Num7))
         activate_new_figure(7);
 
-    if (keyboard.isKeyPressed(keyboard.Num8))
+    if (Keyboard::isKeyPressed(keyboard.Num8))
         activate_new_figure(8);
 
-    if (keyboard.isKeyPressed(keyboard.Num9))
+    if (Keyboard::isKeyPressed(keyboard.Num9))
         activate_new_figure(9);
 #pragma endregion
 }
@@ -268,10 +286,10 @@ void Controller::add_selected_to_composite() {
 }
 
 void Controller::select_color() {
-    if (scene_figures.size() == 0)
+    if (scene_figures.empty())
         return;
 
-    cout << "Input 3 values, devided by space - RGB color components ([0; 255]):" << endl;
+    cout << "Input 3 values, divided by space - RGB color components ([0; 255]):" << endl;
     int r, g, b;
 
     try {
@@ -286,12 +304,12 @@ void Controller::select_color() {
         cout << "Bad input! Try again!" << endl;
     }
 
-    Color* new_color = new Color(r, g, b);
-    scene_figures[active_figure_index]->set_color(*new_color);
+    Color new_color(r, g, b);
+    scene_figures[active_figure_index]->set_color(new_color);
 }
 
 void Controller::set_active_figure_scale() {
-    if (scene_figures.size() == 0)
+    if (scene_figures.empty())
         return;
 
     cout << "Input two numbers - x and y scale factors." << endl;
@@ -302,7 +320,7 @@ void Controller::set_active_figure_scale() {
     scene_figures[active_figure_index]->set_scale(x, y);
 }
 
-void Controller::active_figure_to_fronter_layer() {
+void Controller::active_figure_to_frontier_layer() {
     if (active_figure_index + 1 == scene_figures.size())
         return;
 
@@ -313,26 +331,26 @@ void Controller::active_figure_to_fronter_layer() {
 }
 
 void Controller::hide_active() {
-    if (scene_figures.size() != 0)
+    if (!scene_figures.empty())
         scene_figures[active_figure_index]->hide();
 }
 
 void Controller::show_active() {
-    if (scene_figures.size() != 0)
+    if (!scene_figures.empty())
         scene_figures[active_figure_index]->show();
 }
 
 void Controller::set_active_figure_automove_mode(bool value) {
-    if (scene_figures.size() != 0)
+    if (!scene_figures.empty())
         scene_figures[active_figure_index]->set_automove_mode(value);
 }
 
 void Controller::delete_active_figure() {
-    if (scene_figures.size() == 0)
+    if (scene_figures.empty())
         return;
 
     char input;
-    cout << "Are you sure you want to delete the active figure? Unput \"+\" if yes, something other otherwise: ";
+    cout << "Are you sure you want to delete the active figure? Input \"+\" if yes, something other otherwise: ";
     cin >> input;
 
     if (input == '+') {
@@ -374,4 +392,63 @@ void Controller::check_collision() {
 
 void Controller::set_collision_deformation(bool value) {
     collision_deformation = value;
+}
+
+void Controller::save_scene() const
+{
+    cout << "Are you sure you want save the scene? Input \"+\" if yes, something other otherwise: " << endl;
+    string inp;
+    cin >> inp;
+    if (inp != "+") {
+        return;
+    }
+
+    if (scene_figures.empty()) {
+        cout << "No figures on scene to save!" << endl;
+        return;
+    }
+
+    SceneMemento* memento = new SceneMemento();
+
+    for (int i = 0; i < scene_figures.size(); i++) {
+        memento->saved_scene_figures.push_back(
+            (Figure*)scene_figures[i]->get_copy());
+    }
+
+    caretaker->save(memento);
+
+    delete(memento);
+}
+
+void Controller::load_scene() {
+    cout << "Are you sure you want load the scene? Input \"+\" if yes, something other otherwise: " << endl;
+    string inp;
+    cin >> inp;
+    if (inp != "+") {
+        return;
+    }
+
+    SceneMemento* memento = new SceneMemento();
+
+    if (caretaker->load(memento) == false) {
+        cout << "Failed to load scene!" << endl;
+        return;
+    }
+
+    for (int i = 0; i < scene_figures.size(); i++) {
+        delete(scene_figures[i]);
+    }
+
+    scene_figures.clear();
+
+    for (int i = 0; i < memento->saved_scene_figures.size(); i++) {
+        scene_figures.push_back(memento->saved_scene_figures[i]);
+    }
+
+    memento->saved_scene_figures.clear();
+
+    delete(memento);
+
+    activate_new_figure(0);
+    show_all();
 }
