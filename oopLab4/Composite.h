@@ -1,15 +1,7 @@
 #include <vector>
-#include <iostream>
 #include <string>
-#include <sstream>
 #include "Figure.h"
 #include "Circle.h"
-#include "Line.h"
-#include "Square.h"
-#include "Star.h"
-#include "Triangle.h"
-#include "IConvertable.h"
-#include "Extentions.h"
 #pragma once
 
 class Composite : public Figure

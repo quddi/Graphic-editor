@@ -1,4 +1,12 @@
+#include <iostream>
+#include <sstream>
 #include "Composite.h"
+#include "Line.h"
+#include "Square.h"
+#include "Star.h"
+#include "Triangle.h"
+#include "IConvertable.h"
+#include "Extentions.h"
 
 Composite::Composite(Figure* fig) {
 	if (fig == nullptr)
@@ -217,7 +225,7 @@ void Composite::from_string(vector<string>* splited) {
 	}
 
 	children = *childen_from_string(childern_in_string);
-	set_scale(obtained_x_scale, obtained_y_scale);
+	//set_scale(obtained_x_scale, obtained_y_scale);
 	set_automove_mode(obtained_automove);
 
 	childern_in_string->clear();

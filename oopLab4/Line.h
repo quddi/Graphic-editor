@@ -1,14 +1,13 @@
 #include "Figure.h"
-#include "IConvertable.h"
 #include "Extentions.h"
 #include <SFML/Graphics.hpp>
-#include <sstream>
 #pragma once
 using namespace sf;
 
 class Line : public Figure
 {
 private:
+	const int size_modifier = 3;
 	float length;
 	Color color;
 	RectangleShape* line;

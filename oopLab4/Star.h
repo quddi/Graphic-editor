@@ -1,8 +1,6 @@
 #include "Figure.h"
-#include "IConvertable.h"
 #include "Extentions.h"
 #include <SFML/Graphics.hpp>
-#include <sstream>
 #pragma once
 using namespace sf;
 
@@ -10,7 +8,7 @@ class Star : public Figure
 {
 private:
 	ConvexShape* star;
-	float size;
+	const int size_modifier = 50;
 
 protected:
 	void draw(RenderWindow& window) override;

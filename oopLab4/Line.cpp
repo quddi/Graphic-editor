@@ -1,10 +1,11 @@
 #include "Line.h"
+#include <sstream>
 
 Line::Line(float _length, Color _color) {
-	this->length = _length;
+	this->length = _length / size_modifier;
 	this->color = _color;
 	is_collided = false;
-	scale = Vector2f(1, 1);
+	scale = Vector2f(_length / size_modifier, width);
 	line = new RectangleShape(scale);
 	line->setFillColor(_color);
 }
@@ -60,11 +61,11 @@ void Line::set_color(Color _color) {
 }
 
 Figure* Line::get_copy() {
-	Line* res = new Line(length, color);
+	Line* res = new Line(length * size_modifier, color);
 
 	const Vector2f current_pos = line->getPosition();
 	res->move(current_pos.x, current_pos.y);
-	res->scale = Vector2f(scale.x, scale.y);
+	res->set_scale(scale.x, scale.y);
 	res->automove = automove;
 
 	return res;
@@ -97,8 +98,8 @@ void Line::from_string(vector<string>* splited) {
 
 		obtained_x_pos = stoi((*splited)[4]);
 		obtained_y_pos = stoi((*splited)[5]);
-		obtained_x_scale = stoi((*splited)[6]);
-		obtained_y_scale = stoi((*splited)[7]);
+		obtained_x_scale = stof((*splited)[6]);
+		obtained_y_scale = stof((*splited)[7]);
 
 		if ((*splited)[8] == "0") {
 			obtained_automove = false;

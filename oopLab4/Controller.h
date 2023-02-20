@@ -1,30 +1,20 @@
 #pragma once
-#include <iostream>
-#include <typeinfo>
 #include <SFML/Graphics.hpp>
 #include <string>
 #include <random>
 #include "Figure.h"
-#include "Composite.h"
-#include "Circle.h"
-#include "Square.h"
-#include "Triangle.h"
-#include "Star.h"
-#include "Line.h"
-#include "IConvertable.h"
 #include "ControllerCaretaker.h"
-#include "SceneMemento.h"
 using namespace std;
 using namespace sf;
 
 const string BACKGROUND_IMAGE_PATH = "Background.png";
 const string SAVE_FILE_PATH = "Save.txt";
 
-const int MIN_RANDOM_COLOR_VALUE = 50;
-const int ANTIALIASING_LEVEL = 8;
+constexpr int MIN_RANDOM_COLOR_VALUE = 50;
+constexpr int ANTIALIASING_LEVEL = 8;
 
-const int SCREEN_WIDTH = 1920;
-const int SCREEN_HEIGHT = 960;
+constexpr int SCREEN_WIDTH = 1920;
+constexpr int SCREEN_HEIGHT = 960;
 
 class Controller
 {

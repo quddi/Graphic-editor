@@ -1,4 +1,6 @@
 #include "SceneMemento.h"
+#include "Composite.h"
+#include <sstream>
 
 SceneMemento::~SceneMemento() {
     for (int i = 0; i < saved_scene_figures.size(); i++) {

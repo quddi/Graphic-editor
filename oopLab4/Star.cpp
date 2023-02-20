@@ -1,15 +1,14 @@
 #include "Star.h"
 
-Star::Star(float _size, Color _color) {
-    const int size_modifier = 8;
-    _size /= size_modifier;
+#include <iostream>
+#include <sstream>
 
-    this->size = _size;
-    this->color = _color;
+Star::Star(float _size, Color _color) {
+	_size /= size_modifier;
+    color = _color;
     is_collided = false;
-    star = new ConvexShape(_size);
+    star = new ConvexShape(10);
     star->setFillColor(_color);
-    star->setPointCount(10);
     star->setPoint(0, sf::Vector2f(60, 0));
     star->setPoint(1, sf::Vector2f(72, 40));
     star->setPoint(2, sf::Vector2f(110, 40));
@@ -20,6 +19,7 @@ Star::Star(float _size, Color _color) {
     star->setPoint(7, sf::Vector2f(40, 60));
     star->setPoint(8, sf::Vector2f(10, 40));
     star->setPoint(9, sf::Vector2f(48, 40));
+
     set_scale(_size, _size);
 }
 
@@ -90,11 +90,11 @@ void Star::set_color(Color _color) {
 }
 
 Figure* Star::get_copy() {
-    Star* res = new Star(size, color);
+    Star* res = new Star(DEFAULT_SIZE, color);
 
     const Vector2f current_pos = star->getPosition();
     res->move(current_pos.x, current_pos.y);
-    res->scale = Vector2f(scale.x, scale.y);
+    res->set_scale(scale.x, scale.y);
     res->automove = automove;
 
     return res;
@@ -127,8 +127,8 @@ void Star::from_string(vector<string>* splited) {
 
         obtained_x_pos = stoi((*splited)[4]);
         obtained_y_pos = stoi((*splited)[5]);
-        obtained_x_scale = stoi((*splited)[6]);
-        obtained_y_scale = stoi((*splited)[7]);
+        obtained_x_scale = stof((*splited)[6]);
+        obtained_y_scale = stof((*splited)[7]);
 
         if ((*splited)[8] == "0") {
             obtained_automove = false;

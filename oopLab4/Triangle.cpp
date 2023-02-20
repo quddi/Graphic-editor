@@ -1,4 +1,5 @@
 #include "Triangle.h"
+#include <sstream>
 
 Triangle::Triangle(float height, Color _color) {
 	const int triangle_sides_count = 3;
@@ -33,7 +34,7 @@ Figure* Triangle::get_copy() {
 
 	const Vector2f current_pos = triangle->getPosition();
 	res->move(current_pos.x, current_pos.y);
-	res->scale = Vector2f(scale.x, scale.y);
+	res->set_scale(scale.x, scale.y);
 	res->automove = automove;
 
 	return res;
@@ -66,8 +67,8 @@ void Triangle::from_string(vector<string>* splited) {
 
 		obtained_x_pos = stoi((*splited)[4]);
 		obtained_y_pos = stoi((*splited)[5]);
-		obtained_x_scale = stoi((*splited)[6]);
-		obtained_y_scale = stoi((*splited)[7]);
+		obtained_x_scale = stof((*splited)[6]);
+		obtained_y_scale = stof((*splited)[7]);
 
 		if ((*splited)[8] == "0") {
 			obtained_automove = false;

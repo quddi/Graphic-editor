@@ -1,4 +1,14 @@
 #include "Controller.h"
+#include "Composite.h"
+#include "Circle.h"
+#include "Square.h"
+#include "Triangle.h"
+#include "Star.h"
+#include "Line.h"
+#include "IConvertable.h"
+#include "SceneMemento.h"
+#include <iostream>
+#include <typeinfo>
 
 Controller::Controller() {
     context_settings = new ContextSettings();
@@ -394,8 +404,7 @@ void Controller::set_collision_deformation(bool value) {
     collision_deformation = value;
 }
 
-void Controller::save_scene() const
-{
+void Controller::save_scene() const {
     cout << "Are you sure you want save the scene? Input \"+\" if yes, something other otherwise: " << endl;
     string inp;
     cin >> inp;
@@ -428,27 +437,33 @@ void Controller::load_scene() {
         return;
     }
 
-    SceneMemento* memento = new SceneMemento();
+    try {
+        SceneMemento* memento = new SceneMemento();
 
-    if (caretaker->load(memento) == false) {
-        cout << "Failed to load scene!" << endl;
+        if (caretaker->load(memento) == false) {
+            cout << "Failed to load scene!" << endl;
+            return;
+        }
+
+        for (int i = 0; i < scene_figures.size(); i++) {
+            delete(scene_figures[i]);
+        }
+
+        scene_figures.clear();
+
+        for (int i = 0; i < memento->saved_scene_figures.size(); i++) {
+            scene_figures.push_back(memento->saved_scene_figures[i]);
+        }
+
+        memento->saved_scene_figures.clear();
+
+        delete(memento);
+
+        activate_new_figure(0);
+        show_all();
         return;
     }
-
-    for (int i = 0; i < scene_figures.size(); i++) {
-        delete(scene_figures[i]);
+    catch (exception e) {
+        cout << "Try again" << endl;
     }
-
-    scene_figures.clear();
-
-    for (int i = 0; i < memento->saved_scene_figures.size(); i++) {
-        scene_figures.push_back(memento->saved_scene_figures[i]);
-    }
-
-    memento->saved_scene_figures.clear();
-
-    delete(memento);
-
-    activate_new_figure(0);
-    show_all();
 }

@@ -1,6 +1,3 @@
-#include <vector>
-#include <iostream>
-#include <string>
 #include <SFML/Graphics.hpp>
 #include "IConvertable.h"
 #include "IPrototype.h"

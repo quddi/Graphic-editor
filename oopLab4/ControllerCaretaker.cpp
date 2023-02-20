@@ -1,4 +1,6 @@
 #include "ControllerCaretaker.h"
+#include <iostream>
+#include "Extentions.h"
 
 ControllerCaretaker::ControllerCaretaker(string _file_path) {
 	file_path = _file_path;

@@ -1,8 +1,9 @@
 #include "Circle.h"
+#include <sstream>
 
 Circle::Circle(float radius, Color _color) {
 	circle = new CircleShape(radius);
-	scale = Vector2f(1, 1);
+	set_scale(1, 1);
 	this->radius = radius;
 	this->color = _color;
 	is_collided = false;
@@ -68,7 +69,7 @@ Figure* Circle::get_copy() {
 
 	const Vector2f current_pos = circle->getPosition();
 	res->move(current_pos.x, current_pos.y);
-	res->scale = Vector2f(scale.x, scale.y);
+	res->set_scale(scale.x, scale.y);
 	res->automove = automove;
 
 	return res;
@@ -106,8 +107,8 @@ void Circle::from_string(vector<string>* splited) {
 
 		obtained_x_pos = stoi((*splited)[4]);
 		obtained_y_pos = stoi((*splited)[5]);
-		obtained_x_scale = stoi((*splited)[6]);
-		obtained_y_scale = stoi((*splited)[7]);
+		obtained_x_scale = stof((*splited)[6]);
+		obtained_y_scale = stof((*splited)[7]);
 
 		if ((*splited)[8] == "0") {
 			obtained_automove = false;

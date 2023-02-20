@@ -1,4 +1,6 @@
 #include "Extentions.h"
+#include <sstream>
+#include <iostream>
 
 vector<string>* split(string to_split) {
 	auto* result = new vector<string>();

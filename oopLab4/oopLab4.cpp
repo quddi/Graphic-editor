@@ -1,10 +1,4 @@
-#include <iostream>
 #include "Controller.h"
-
-#include <vector>
-#include <string>
-#include "Composite.h"
-#include "Extentions.h"
 
 /*
     Скласти програму, яка в діалоговому режимі керує графічними об’єктами, що
