@@ -1,18 +1,1 @@
-﻿  Circle.cpp
-C:\Users\alemk\source\repos\oopLab4\oopLab4\Figure.h(9,28): warning C4305: 'initializing': truncation from 'double' to 'float'
-C:\Users\alemk\source\repos\oopLab4\oopLab4\Circle.cpp(108,24): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-C:\Users\alemk\source\repos\oopLab4\oopLab4\Circle.cpp(109,24): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-  Line.cpp
-C:\Users\alemk\source\repos\oopLab4\oopLab4\Figure.h(9,28): warning C4305: 'initializing': truncation from 'double' to 'float'
-C:\Users\alemk\source\repos\oopLab4\oopLab4\Line.cpp(99,24): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-C:\Users\alemk\source\repos\oopLab4\oopLab4\Line.cpp(100,24): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-  Square.cpp
-C:\Users\alemk\source\repos\oopLab4\oopLab4\Figure.h(9,28): warning C4305: 'initializing': truncation from 'double' to 'float'
-C:\Users\alemk\source\repos\oopLab4\oopLab4\Square.cpp(74,24): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-C:\Users\alemk\source\repos\oopLab4\oopLab4\Square.cpp(75,24): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-  Triangle.cpp
-C:\Users\alemk\source\repos\oopLab4\oopLab4\Figure.h(9,28): warning C4305: 'initializing': truncation from 'double' to 'float'
-C:\Users\alemk\source\repos\oopLab4\oopLab4\Triangle.cpp(68,24): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-C:\Users\alemk\source\repos\oopLab4\oopLab4\Triangle.cpp(69,24): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-  Generating Code...
-  oopLab4.vcxproj -> C:\Users\alemk\source\repos\oopLab4\x64\Debug\oopLab4.exe
+﻿  oopLab4.vcxproj -> C:\Users\alemk\source\repos\oopLab4\x64\Debug\oopLab4.exe

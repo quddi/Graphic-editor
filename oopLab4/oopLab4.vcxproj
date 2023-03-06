@@ -163,9 +163,6 @@
     <ClCompile Include="Triangle.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="oopLab4.rc" />
-  </ItemGroup>
-  <ItemGroup>
     <ClInclude Include="Circle.h" />
     <ClInclude Include="Composite.h" />
     <ClInclude Include="Controller.h" />
@@ -179,6 +176,10 @@
     <ClInclude Include="Square.h" />
     <ClInclude Include="Star.h" />
     <ClInclude Include="Triangle.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram.cd" />
+    <None Include="ClassDiagram1.cd" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
